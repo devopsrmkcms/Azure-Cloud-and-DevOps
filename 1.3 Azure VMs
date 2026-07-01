@@ -1,1 +1,197 @@
+Azure VM
+
+Infrastructure as a Service (IaaS)
+Provides Windows or Linux servers in Azure cloud
+Full control over OS, software, patches, and configurations
+Suitable for applications, databases, web servers, middleware, and development environments
+
+Core Components
+
+Virtual Machine → Actual server
+Resource Group → Logical container for resources
+VNet → Virtual network
+Subnet → Network segment inside VNet
+NIC → Network card
+NSG → Firewall rules
+Public IP → Internet access
+Managed Disk → OS/Data storage
+Availability Set / Availability Zone → High availability
+
+VM Sizes
+
+B-Series → Burstable, low-cost workloads
+D-Series → General purpose
+E-Series → Memory optimized
+F-Series → Compute optimized
+M-Series → Large memory workloads
+N-Series → GPU workloads
+
+Storage Types
+
+Standard HDD → Lowest cost
+Standard SSD → Better performance
+Premium SSD → Production workloads
+Ultra Disk → Very high IOPS
+
+High Availability
+
+Availability Set
+Availability Zone
+Virtual Machine Scale Set (VMSS)
+Load Balancer
+
+Security Features
+
+RBAC (Role-Based Access Control)
+NSG (Network Security Group)
+Azure Defender
+Disk Encryption
+Managed Identity
+Key Vault integration
+
+Monitoring
+
+Azure Monitor
+Log Analytics
+Application Insights
+Boot Diagnostics
+
+Backup & Recovery
+
+Azure Backup
+Recovery Services Vault
+VM Snapshots
+Site Recovery (ASR)
+
+Scaling
+
+Vertical Scaling → Increase CPU/RAM
+Horizontal Scaling → Add more VMs using VMSS
+
+VM Deployment Methods
+
+Azure Portal
+Azure CLI
+PowerShell
+ARM Templates
+Bicep
+Terraform
+Azure DevOps Pipelines
+
+Pricing Factors
+
+VM Size
+OS License
+Disk Type
+Region
+Network Usage
+Public IP
+Backup Services
+
+Common Azure VM Interview Points
+
+Difference between Availability Set and Availability Zone
+Difference between Vertical and Horizontal Scaling
+Difference between Managed and Unmanaged Disks
+VMSS purpose and use case
+Azure Backup vs Site Recovery
+Public IP vs Private IP
+NSG vs Azure Firewall
+Spot VM vs Regular VM
+Ephemeral OS Disk
+Azure Hybrid Benefit
+
+Must Know Services Around Azure VM
+
+Azure Load Balancer
+Application Gateway
+Azure Bastion
+Azure Backup
+Azure Site Recovery
+Azure Monitor
+Azure Key Vault
+Azure Disk Storage
+Azure Virtual Network
+Azure VM Scale Sets
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Availability Set vs Availability Zone (Azure VM)
+Availability Set
+
+Protects against server/rack failure inside a single datacenter to avoid single point of failure
+VMs distributed across:
+
+Fault Domains → different racks/power/network
+Update Domains → different maintenance groups
+
+
+Suitable for applications running within one datacenter
+SLA: 99.95% when properly configured
+Lower latency between VMs because they stay in the same datacenter. [learn.microsoft.com], [bing.com]
+
+Availability Zone
+
+Protects against entire datacenter failure
+VMs deployed across physically separate datacenters within the same Azure region
+Each zone has independent:
+
+Power
+Cooling
+Network
+
+
+Suitable for mission-critical production applications
+SLA: 99.99%
+Higher resiliency than Availability Sets. [learn.microsoft.com], [bing.com]
+
+Simple Comparison
+Availability Set
+
+Same region ✅
+Same datacenter ✅
+Different racks ✅
+Datacenter failure protection ❌
+Lower cost ✅
+
+Availability Zone
+
+Same region ✅
+Different datacenters ✅
+Different power/network ✅
+Datacenter failure protection ✅
+Higher availability ✅ 
+
+Example
+Availability Set
+
+VM1 → Rack 1
+VM2 → Rack 2
+If Rack 1 fails → VM2 still running
+
+Availability Zone
+
+VM1 → Zone 1 (Datacenter A)
+VM2 → Zone 2 (Datacenter B)
+If Datacenter A fails → VM2 still running
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Fault Domain: Fault Domain = Protection from unexpected hardware failures.
+-- Handles hardware failures
+-- Different racks/power/network
+-- Protects against server or rack crash
+
+Update Domain:  Purpose: Protects against planned maintenance/reboots.
+-- Handles maintenance failures
+-- Different reboot groups
+-- Protects against Azure patching and upgrades
+
+Fault Domain = Physical isolation for hardware failure protection.
+Update Domain = Logical isolation for maintenance and reboot protection.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 
