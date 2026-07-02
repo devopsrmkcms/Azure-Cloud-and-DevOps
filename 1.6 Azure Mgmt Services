@@ -75,8 +75,7 @@ Azure Key Vault
 - Supports encryption key management.
 - Used by applications, VMs, pipelines, and services.
 - Provides auditing, monitoring, and secret rotation capabilities. 
-- Enterprise documentation describes it as a key/secrets/token management 
-  solution using Azure AD and RBAC/Key Vault policies.
+
 
 Azure Monitor
 - Central monitoring service for Azure resources.
@@ -84,7 +83,7 @@ Azure Monitor
 - Integrates with Log Analytics workspace.
 - Supports alerts and dashboards.
 - Used for performance monitoring and troubleshooting. 
-  Azure interview materials highlight Azure Monitor and Log Analytics for monitoring and alerting.
+
 
 Interview One-Liners
 - Resource Group → Logical container for Azure resources.
@@ -97,3 +96,42 @@ Interview One-Liners
 - Managed Identity → Passwordless authentication for Azure resources.
 - Key Vault → Secure storage for secrets and keys.
 - Monitor → Monitoring, logging, and alerting platform.
+
+Azure Tenant (Azure Entra ID)
+        │
+        ▼
+Management Group (Root)
+        │
+ ┌──────┴──────┐
+ ▼             ▼
+Management   Management
+Group-Prod   Group-NonProd
+        │
+        ▼
+Subscription-A
+        │
+ ┌──────┴──────┐
+ ▼             ▼
+Resource     Resource
+Group-App    Group-DB
+        │
+        ▼
+Resources
+(VM, VNet, AKS,
+Storage, DB, KV)
+
+Tenant
+  ↓
+Management Group
+  ↓
+Subscription
+  ↓
+Resource Group
+  ↓
+Resource
+
+
+Policy applied at Management Group → inherited by all Subscriptions/RGs/Resources
+RBAC applied at Subscription → inherited by all RGs and Resources inside it
+Resource Group → logical container
+Resource → actual service (VM, Storage, AKS, SQL, Key Vault)
