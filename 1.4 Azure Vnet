@@ -1,139 +1,168 @@
-What is VNet?
+VNET (Virtual Network)  subnet , route table, gateway
+- Private network in Azure.
+- Enables communication between Azure resources.
+- Similar to a network in a data center.
+- Supports subnets, NSGs, route tables.
+- Provides network isolation and security.
 
-Azure VNet is a private network in Azure
-Provides secure communication between Azure resources
-Similar to a traditional on-premises network in the cloud
-Foundation for Azure networking [learn.microsoft.com]
+Subnet
+- Logical division of a VNET.
+- Helps organize resources by function.
+- Each subnet has its own IP range.
+- NSGs can be applied at subnet level.
+- Improves network management and security.
 
+NSG (Network Security Group)
+- Controls inbound and outbound traffic.
+- Works like a firewall.
+- Uses Allow and Deny rules.
+- Can be attached to subnet or NIC.
+- Evaluated based on priority numbers.
 
-Main Components
-Address Space
+Route Tables (UDR)
+- UDR = User Defined Route.
+- Controls network traffic paths.
+- Overrides Azure default routing.
+- Directs traffic to firewall/NVA.
+- Used for custom network designs.
 
-IP range assigned to the VNet
-Defined using CIDR notation
+Service Endpoints
+- Secure connection to Azure PaaS services.
+- Traffic stays on Azure backbone network.
+- Extends VNET identity to Azure services.
+- Supports Storage, SQL, Key Vault, etc.
+- Simpler than Private Endpoint.
 
-Example:
-Plain Text10.0.0.0/16Show more lines
- [arindam-da...medium.com], [learn.microsoft.com]
+Private Endpoint
+- Provides private IP to Azure services.
+- Accesses PaaS services privately.
+- Eliminates public internet exposure.
+- Uses Azure Private Link.
+- Improves security and compliance.
 
-Subnets
-
-Divide VNet into smaller networks
-Used for logical separation
-
-Example:
-Plain TextVNet: 10.0.0.0/16Web Subnet : 10.0.1.0/24App Subnet : 10.0.2.0/24DB Subnet  : 10.0.3.0/24Show more lines
- [arindam-da...medium.com], [medium.com]
-
-Network Interface (NIC)
-
-Connects VM to VNet
-Every VM needs a NIC
-
- [learn.microsoft.com]
-
-IP Addresses
-Private IP
-
-Internal communication
-Assigned inside VNet
-
-Example:
-Plain Text10.0.1.4Show more lines
-Public IP
-
-Internet access
-Optional
-
- [learn.microsoft.com]
-
-Security Components
-Network Security Group (NSG)
-
-Azure firewall at subnet/NIC level
-Controls inbound and outbound traffic
-
-Example:
-Plain TextAllow Port 22 (SSH)Allow Port 80 (HTTP)Block All OthersShow more lines
- [arindam-da...medium.com], [medium.com]
-
-Azure Firewall
-
-Centralized network security
-L3-L7 traffic filtering
-
-
-Connectivity Options
-VNet Peering
-
-Connect two VNets
-Traffic stays on Microsoft backbone network
-Low latency
-
-Example:
-Plain TextVNet-A <----> VNet-BShow more lines
- [azure.microsoft.com], [medium.com]
+VNET Peering
+- Connects two Azure VNets.
+- Low latency communication.
+- Uses Azure backbone network.
+- No VPN Gateway required.
+- Supports same or different regions.
 
 VPN Gateway
-
-Connect Azure to On-Premises through Internet
-Encrypted IPSec tunnel
-
-Plain TextOn-Prem    | VPN    | Azure VNetShow more lines
- [medium.com], [geeksforgeeks.org]
+- onnects on-premises to Azure over internet.
+- Provides encrypted communication.
+- Supports Site-to-Site VPN.
+- Supports Point-to-Site VPN.
+- Lower cost than ExpressRoute.
 
 ExpressRoute
+- Private connection to Azure.
+- Does not use public internet.
+- Higher security and reliability.
+- Lower latency than VPN.
+- Suitable for enterprise workloads.
 
-Private dedicated connection
-Does not use Internet
-More secure and lower latency
+Azure DNS
+- Azure-hosted DNS service.
+- Manages public and private DNS zones.
+- Provides name resolution.
+- Highly available and scalable.
+- Integrates with Azure resources.
 
- [azure.microsoft.com], [medium.com]
+Application Gateway
+- Layer 7 Load Balancer (HTTP/HTTPS).
+- Supports URL-based routing.
+- Supports SSL termination.
+- Includes Web Application Firewall (WAF).
+- Commonly used for web applications.
 
-Traffic Management
-Route Tables (UDR)
+Interview One-Liners
 
-Controls traffic path
-Custom routing
+VNET → Private network in Azure.
+Subnet → Logical division of a VNET.
+NSG → Firewall for Azure network traffic.
+UDR → Custom routing table.
+Service Endpoint → Secure VNET access to Azure services.
+Private Endpoint → Private IP access to Azure services.
+VNET Peering → Direct connection between VNets.
+VPN Gateway → Encrypted Azure-to-OnPrem connection.
+ExpressRoute → Dedicated private connection to Azure.
+Azure DNS → DNS hosting and name resolution service.
+Application Gateway → Layer 7 load balancer with WAF.
 
-Example:
-Plain TextAll Internet Traffic        ↓Azure FirewallShow more lines
- [arindam-da...medium.com], [medium.com]
 
-Service Integration
-Service Endpoints
+Copilot said: Service Endpoint vs Private Endpoint
+Service Endpoint
 
-Secure access to Azure services
-Storage Account
-SQL Database
+Extends VNET identity to an Azure service.
+Azure service still has a public IP.
+Traffic stays on the Azure backbone network.
+Simpler and cheaper to configure.
+Access is restricted using VNET/Subnet rules.
 
 Private Endpoint
 
-Private IP access to Azure services
-No public internet exposure
+Creates a private IP inside your VNET.
+Azure service is accessed privately.
+No public internet exposure required.
+Uses Azure Private Link.
+More secure than Service Endpoint.
 
- [learn.microsoft.com]
+Quick Comparison
+IP Address
 
-Common VNet Design
-VNet (10.0.0.0/16)
-├── Web Subnet (10.0.1.0/24)│     
-└── Web VMs│
-├── App Subnet (10.0.2.0/24)│     
-└── Application VMs│
-└── DB Subnet (10.0.3.0/24)      
-└── Database VMsShow more lines
+Service Endpoint → Public IP
+Private Endpoint → Private IP
 
-Key Interview Points
+Internet Exposure
 
-VNet = Private network in Azure
-Subnet = Division of VNet
-NSG = Traffic filtering
-VNet Peering = Connect VNets
-VPN Gateway = Azure ⇄ On-Prem via Internet
-ExpressRoute = Private dedicated connection
-Private Endpoint = Private access to Azure services
-Route Table = Controls packet routing
+Service Endpoint → Public endpoint exists
+Private Endpoint → Public access can be disabled
 
+Security
 
-One-Line Interview Answer
-Azure VNet is a logically isolated private network in Azure that enables secure communication between Azure resources, on-premises environments, and the internet
+Service Endpoint → Good
+Private Endpoint → Best
+
+Access Method
+
+Service Endpoint → Through service public endpoint
+Private Endpoint → Through private IP in VNET
+
+DNS Requirement
+
+Service Endpoint → Usually not required
+Private Endpoint → Private DNS Zone commonly required
+
+Cost
+
+Service Endpoint → Free
+Private Endpoint → Additional cost
+
+Interview Answer
+When to use Service Endpoint?
+
+When you need secure access from Azure VNETs to Storage Account, SQL Database, or Key Vault and public endpoint usage is acceptable.
+
+When to use Private Endpoint?
+
+When security and compliance require that the service be accessible only through a private IP and not exposed to the public internet.
+
+Easy Memory Trick
+
+Service Endpoint = Secure path to Public IP
+Private Endpoint = Private IP for Azure Service
+
+Example
+Storage Account Access:
+Plain TextService EndpointVM ---> VNET ---> Azure Backbone ---> Storage Account (Public IP)Show more lines
+Plain TextPrivate EndpointVM ---> VNET ---> Private Endpoint (10.0.1.5) ---> Storage AccountShow more lines
+Most Asked Interview Question
+Which is more secure?
+
+✅ Private Endpoint
+
+Why?
+
+Traffic uses a private IP.
+Public access can be completely disabled.
+Helps meet strict security and compliance requirements
