@@ -7,57 +7,51 @@
 
 Azure Load Balancer
 Purpose: Distribute traffic across multiple VMs or backend servers.
-
-Layer 4 (TCP/UDP) load balancer.
-Distributes traffic based on IP and port.
-Supports Internal and Public Load Balancer.
-Provides high availability for applications.
-Commonly used with VM Scale Sets.
+- Layer 4 (TCP/UDP) load balancer.
+- Distributes traffic based on IP and port.
+- Supports Internal and Public Load Balancer.
+- Provides high availability for applications.
+- Commonly used with VM Scale Sets.
 
 Application Gateway
 Purpose: Load balance and protect web applications.
-
-Layer 7 (HTTP/HTTPS) load balancer.
-Supports URL-based routing.
-Supports SSL termination.
-Includes Web Application Firewall (WAF).
-Ideal for web applications and APIs.
+- Layer 7 (HTTP/HTTPS) load balancer.
+- Supports URL-based routing.
+- Supports SSL termination.
+- Includes Web Application Firewall (WAF).
+- Ideal for web applications and APIs.
 
 Traffic Manager
 Purpose: Direct users to the best Azure region globally.
-
-DNS-based global traffic routing.
-Routes users to nearest or healthiest endpoint.
-Supports multi-region deployments.
-Provides disaster recovery capability.
-Works across Azure and non-Azure endpoints.
+- DNS-based global traffic routing.
+- Routes users to nearest or healthiest endpoint.
+- Supports multi-region deployments.
+- Provides disaster recovery capability.
+- Works across Azure and non-Azure endpoints.
 
 Azure Front Door
 Purpose: Global application delivery and acceleration.
-
-Layer 7 global load balancer.
-Uses Microsoft's global edge network.
-Provides SSL offloading and acceleration.
-Supports WAF and DDoS protection.
-Improves application performance worldwide.
+- Layer 7 global load balancer.
+- Uses Microsoft's global edge network.
+- Provides SSL offloading and acceleration.
+- Supports WAF and DDoS protection.
+- Improves application performance worldwide.
 
 
 Layer 4 vs Layer 7
 Layer 4 (Transport Layer)
-
-Works with TCP/UDP traffic.
-Does not inspect application content.
-Faster and lower latency.
-Routes based on IP and Port.
-Example: Azure Load Balancer.
+- Works with TCP/UDP traffic.
+- Does not inspect application content.
+- Faster and lower latency.
+- Routes based on IP and Port.
+- Example: Azure Load Balancer.
 
 Layer 7 (Application Layer)
-
-Understands HTTP/HTTPS traffic.
-Can inspect URLs, headers, cookies.
-Supports URL-based routing.
-Supports SSL termination.
-Example: Application Gateway, Front Door.
+- Understands HTTP/HTTPS traffic.
+- Can inspect URLs, headers, cookies.
+- Supports URL-based routing.
+- Supports SSL termination.
+- Example: Application Gateway, Front Door.
 
 
 Layer 4 = IP + Port Based Routing
@@ -65,18 +59,18 @@ Layer 7 = Content + URL Based Routing
 
 Application Gateway vs Load Balancer
 Azure Load Balancer
-Layer 4.
-TCP/UDP traffic.
-No URL-based routing.
-No WAF.
-Best for VMs and infrastructure traffic.
+- Layer 4.
+- TCP/UDP traffic.
+- No URL-based routing.
+- No WAF.
+- Best for VMs and infrastructure traffic.
 
 Application Gateway
-Layer 7.
-HTTP/HTTPS traffic.
-Supports URL/path routing.
-Includes WAF.
-Best for websites and APIs.
+- Layer 7.
+- HTTP/HTTPS traffic.
+- Supports URL/path routing.
+- Includes WAF.
+- Best for websites and APIs.
 
 Load Balancer → Infrastructure traffic (L4)
 Application Gateway → Web traffic + WAF + URL routing (L7)
@@ -85,18 +79,18 @@ Application Gateway → Web traffic + WAF + URL routing (L7)
 Traffic Manager vs Front Door
 
 Traffic Manager
-DNS-based routing.
-Routes user to best Azure region.
-Does not inspect HTTP traffic.
-Disaster recovery solution.
-Global traffic distribution.
+- DNS-based routing.
+- Routes user to best Azure region.
+- Does not inspect HTTP traffic.
+- Disaster recovery solution.
+- Global traffic distribution.
 
 Front Door
-Layer 7 global load balancer.
-Uses Anycast edge locations.
-Accelerates web traffic.
-Supports WAF.
-Provides instant failover and routing.
+- Layer 7 global load balancer.
+- Uses Anycast edge locations.
+- Accelerates web traffic.
+- Supports WAF.
+- Provides instant failover and routing.
 
 
 Traffic Manager = DNS-based global routing
@@ -141,7 +135,7 @@ Traffic Manager = Global DNS
 Front Door = Global L7 + WAF + CDN
 
 
-Copilot said: Traffic Manager Routing Methods
+Traffic Manager Routing Methods
 
 Priority Routing → Primary endpoint handles traffic; secondary endpoint used during failover.
 Weighted Routing → Traffic distributed based on assigned weights (e.g., 70% / 30%).
