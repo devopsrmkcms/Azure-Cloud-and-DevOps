@@ -198,71 +198,61 @@ StorageClass Components
 1. Provisioner
 Defines who will create storage.
 Examples:
-
-Azure Disk CSI Driver
-Azure File CSI Driver
+- Azure Disk CSI Driver
+- Azure File CSI Driver
 
 Job:
-
-Receives request.
-Calls Azure APIs.
-Creates storage.
+- Receives request.
+- Calls Azure APIs.
+- Creates storage.
 
 
 2. Parameters
 Defines storage characteristics.
 Examples:
-
-Premium SSD
-Standard SSD
-Standard HDD
+- Premium SSD
+- Standard SSD
+- Standard HDD
 
 Defines:
-
-Performance
-Cost
-Redundancy
+- Performance
+- Cost
+- Redundancy
 
 
 3. Reclaim Policy
 Controls what happens after PVC deletion.
 Delete
-
-PV deleted.
-Azure Disk deleted.
+- PV deleted.
+- Azure Disk deleted.
 
 Retain
-
-PV remains.
-Azure Disk remains.
-Manual cleanup required.
+- PV remains.
+- Azure Disk remains.
+- Manual cleanup required.
 
 Used for databases.
 
 StorageClass Types in AKS
 managed-csi
 Purpose:
-
-Azure Managed Disk.
-General workloads.
+- Azure Managed Disk.
+- General workloads.
 
 Use:
-
-Applications
-APIs
-Small databases
+- Applications
+- APIs
+- Small databases
 
 
 managed-premium
 Purpose:
-
-Premium SSD.
+- Premium SSD.
 
 Use:
-
-Production Databases
-High IOPS Workloads
-Critical Applications
+- Production Databases
+- High IOPS Workloads
+- Critical Applications
 
 Most commonly used in Production.
 
@@ -279,21 +269,18 @@ Multiple Pods can access same files.
 
 azurefile-csi-premium
 Purpose:
-
-High-performance Azure File Share.
+- High-performance Azure File Share.
 
 Use:
-
-Large enterprise applications.
+- Large enterprise applications.
 
 
 PV (Persistent Volume)
 What is PV?
 PV is actual storage resource available to Kubernetes.
 Examples:
-
-Azure Managed Disk
-Azure File Share
+- Azure Managed Disk
+- Azure File Share
 
 Think:
 StorageClass = Order Form
@@ -302,10 +289,9 @@ PV = Actual Hard Disk
 Purpose of PV
 Provides actual storage capacity.
 Examples:
-
-50 GB Disk
-100 GB Disk
-500 GB File Share
+- 50 GB Disk
+- 100 GB Disk
+- 500 GB File Share
 
 PV is what physically stores application data.
 
@@ -313,41 +299,35 @@ PVC (Persistent Volume Claim)
 What is PVC?
 PVC is a request for storage made by application teams.
 Think:
-
-Employee requests Laptop.
-Company provides Laptop.
+- Employee requests Laptop.
+- Company provides Laptop.
 
 Similarly:
-
-Application requests storage.
-Kubernetes provides storage.
+- Application requests storage.
+- Kubernetes provides storage.
 
 
 PVC Contains
-
-Storage Size
-Access Mode
-Storage Class
+- Storage Size
+- Access Mode
+- Storage Class
 
 Example:
 Developer says:
-
-Need 100 GB.
-Need Premium Storage.
-Need ReadWriteOnce access.
+- Need 100 GB.
+- Need Premium Storage.
+- Need ReadWriteOnce access.
 
 PVC sends request to Kubernetes.
 
 PV vs PVC
 PV
-
-Actual storage.
-Created by system.
+- Actual storage.
+- Created by system.
 
 PVC
-
-Request for storage.
-Created by developer.
+- Request for storage.
+- Created by developer.
 
 Simple Interview Answer:
 PVC requests storage; PV provides storage.
@@ -391,15 +371,13 @@ Pod Mounted
 What is CSI Driver?
 CSI = Container Storage Interface
 Purpose:
-
-Standard way to connect Kubernetes with storage providers.
+- Standard way to connect Kubernetes with storage providers.
 
 Examples:
-
-Azure Disk CSI
-Azure File CSI
-AWS EBS CSI
-EFS CSI
+- Azure Disk CSI
+- Azure File CSI
+- AWS EBS CSI
+- EFS CSI
 
 In AKS, Microsoft recommends CSI Drivers.
 
@@ -409,11 +387,9 @@ Most Important Interview Topic
 What is Azure Disk?
 Azure Managed Block Storage.
 Looks like:
-
-Hard Disk
-SSD
-Premium SSD
-
+- Hard Disk
+- SSD
+- Premium SSD
 attached to Kubernetes Node.
 
 Access Mode
@@ -421,25 +397,21 @@ ReadWriteOnce (RWO)
 Meaning:
 
 Only one node can write at a time.
-
-
 Best Use Cases
-
-MySQL
-PostgreSQL
-Oracle
-MongoDB
-SQL Server
-Elasticsearch
+- MySQL
+- PostgreSQL
+- Oracle
+- MongoDB
+- SQL Server
+- Elasticsearch
 
 Any database workload.
 
 Why Best for Databases?
 Databases need:
-
-High IOPS
-Low Latency
-Consistent Performance
+- High IOPS
+- Low Latency
+- Consistent Performance
 
 Azure Disk provides all 3.
 
@@ -447,9 +419,8 @@ Azure Files
 What is Azure File?
 Managed file share provided by Azure.
 Accessible through:
-
-SMB
-NFS
+- SMB
+- NFS
 
 
 Access Mode
@@ -458,29 +429,26 @@ Meaning:
 Multiple Pods can access same storage simultaneously.
 
 Best Use Cases
-
-Shared Upload Directories
-Shared Configuration Files
-Web Content
-Shared Documents
+- Shared Upload Directories
+- Shared Configuration Files
+- Web Content
+- Shared Documents
 
 
 Azure Disk vs Azure Files
 Azure Disk
-
-Block Storage
-High Performance
-Low Latency
-Single Node Write
-Best for Databases
+- Block Storage
+- High Performance
+- Low Latency
+- Single Node Write
+- Best for Databases
 
 Azure Files
-
-File Storage
-Shared Access
-Multiple Pods Access
-RWX Support
-Best for Shared Files
+- File Storage
+- Shared Access
+- Multiple Pods Access
+- RWX Support
+- Best for Shared Files
 
 Interview Answer:
 Use Azure Disk for databases and Azure Files for shared storage requirements.
@@ -538,17 +506,15 @@ MySQL Pod → PVC → PV → StorageClass → CSI Driver → Azure Premium SSD
 
 What Happens If Pod Crashes?
 Normal Container Storage:
-
-Pod deleted.
-Data deleted.
+- Pod deleted.
+- Data deleted.
 
 Persistent Volume Storage:
-
-Pod deleted.
-Azure Disk remains.
-New Pod starts.
-Same PVC attached.
-Same data available.
+- Pod deleted.
+- Azure Disk remains.
+- New Pod starts.
+- Same PVC attached.
+- Same data available.
 
 No data loss.
 
