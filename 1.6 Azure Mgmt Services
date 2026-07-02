@@ -1,0 +1,99 @@
+•	Azure Resource Groups
+•	Azure Subscription
+•	Azure Management Groups
+•	Azure Tags
+•	Azure Policies
+•	Azure RBAC
+•	Azure Entra ID (Azure AD)
+•	Azure Managed Identities
+•	Azure Key Vault
+•	Azure Monitor
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Azure Resource Groups
+- Logical container to organize Azure resources.
+- Resources can be deployed, updated, and deleted together.
+- Supports RBAC, Policies, and Tags.
+- A resource can belong to only one Resource Group at a time.
+
+Azure Subscription
+- Billing and resource management boundary in Azure.
+- Used to isolate environments (Dev, QA, Prod).
+- Defines quotas and usage limits.
+- Resources are deployed under a subscription.
+- Multiple subscriptions can exist under one tenant.
+
+Azure Management Groups
+- Organize multiple Azure subscriptions hierarchically.
+- Apply governance across many subscriptions.
+- Policies and RBAC can be inherited.
+- Helps large enterprises manage Azure at scale.
+- Can have multiple levels of hierarchy.
+
+Azure Tags
+- Key-value pairs attached to Azure resources.
+- Used for cost tracking and reporting.
+- Helps identify owner, project, environment, or application.
+- Useful for automation and governance.
+- Example: Environment=Prod, Owner=DevOpsTeam. Related enterprise guidance emphasizes ownership 
+  tagging for accountability and compliance.
+
+Azure Policies
+- Enforce organizational standards and compliance.
+- Can allow, deny, audit, or modify resources.
+- Applied at Management Group, Subscription, or Resource Group level.
+- Helps ensure security and governance.
+- Example: Allow only approved VM sizes.
+
+Azure RBAC (Role-Based Access Control)
+- Controls who can access Azure resources.
+- Assigns permissions through roles.
+- Built-in roles include Owner, Contributor, Reader.
+- Supports least-privilege access model.
+- Permissions can be assigned at different scopes. Enterprise IAM materials 
+  reference RBAC for role-based authorization and access reviews.
+
+Azure Entra ID (Azure AD)
+- Azure's identity and access management service.
+- Provides authentication and authorization.
+- Supports Single Sign-On (SSO).
+- Integrates with MFA and Conditional Access.
+- Used by Azure, Microsoft 365, and SaaS applications. Enterprise IAM plans 
+  reference Entra ID for authentication and authorization.
+
+Azure Managed Identities
+- Eliminates storing credentials in code.
+- Automatically managed by Azure.
+- Used to access Azure services securely.
+- Supports System-assigned and User-assigned identities.
+- Commonly used with Key Vault, Storage, and SQL Database.
+
+Azure Key Vault
+- Secure storage for secrets, passwords, keys, and certificates.
+- Integrates with RBAC and Entra ID for access control.
+- Supports encryption key management.
+- Used by applications, VMs, pipelines, and services.
+- Provides auditing, monitoring, and secret rotation capabilities. 
+- Enterprise documentation describes it as a key/secrets/token management 
+  solution using Azure AD and RBAC/Key Vault policies.
+
+Azure Monitor
+- Central monitoring service for Azure resources.
+- Collects metrics, logs, and diagnostic data.
+- Integrates with Log Analytics workspace.
+- Supports alerts and dashboards.
+- Used for performance monitoring and troubleshooting. 
+  Azure interview materials highlight Azure Monitor and Log Analytics for monitoring and alerting.
+
+Interview One-Liners
+- Resource Group → Logical container for Azure resources.
+- Subscription → Billing and resource management boundary.
+- Management Group → Groups multiple subscriptions for governance.
+- Tags → Metadata for cost tracking and organization.
+- Policy → Enforces compliance and standards.
+- RBAC → Controls who can do what in Azure.
+- Entra ID → Identity and authentication service.
+- Managed Identity → Passwordless authentication for Azure resources.
+- Key Vault → Secure storage for secrets and keys.
+- Monitor → Monitoring, logging, and alerting platform.
