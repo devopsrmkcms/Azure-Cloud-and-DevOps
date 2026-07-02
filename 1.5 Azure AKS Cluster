@@ -1,1 +1,594 @@
+AKS Cluster Architecture
+
+1. Control Plane (Brain of AKS)
+Purpose
+- Manages entire cluster.
+- Makes all decisions.
+
+Components
+- API Server
+- Controller
+- Scheduler
+- ETCD
+
+API Server
+- Entry point to Kubernetes.
+- Receives kubectl commands.
+- Receives deployment requests.
+  kubectl apply -f app.yaml    #Request goes to API Server.
+
+Scheduler
+Purpose
+- Decides where a Pod should run.
+
+Example
+If cluster has:
+Node1 = 80% CPU
+Node2 = 20% CPU        #Scheduler puts Pod on Node2.
+
+Controller Manager
+Purpose
+- Maintains desired state.
+
+Example:
+replicas: 3
+If 1 Pod crashes:
+Desired = 3
+Running = 2
+Controller creates new Pod.
+
+etcd
+Purpose
+- Database of Kubernetes.
+Stores:
+- Pods
+- Services
+- Deployments
+- Secrets
+- ConfigMaps
+Everything about cluster is stored here.
+
+==================================================
+
+2. Node Pool
+Purpose
+- Group of worker VMs.
+- Runs application Pods.
+
+Contains
+- Kubelet
+- Container Runtime
+- kube-proxy
+
+
+3. Kubelet
+Purpose
+- Agent running on every node.
+
+Job
+- Talks to API Server.
+- Starts Pods.
+- Stops Pods.
+- Reports Pod status.
+
+API Server
+ ↓
+Kubelet
+ ↓
+Creates Pod
+================================================
+4. kube-proxy
+Purpose
+- Handles Service networking.
+Job
+- Routes traffic.
+- Maintains networking rules.
+
+Service
+ ↓
+kube-proxy
+ ↓
+Correct Pod
+================================================
+5. Container Runtime
+Purpose
+- Runs containers.
+
+Examples:
+- containerd
+- CRI-O
+================================================
+System Node Pool
+Purpose
+- Runs Kubernetes components.
+
+Examples:
+- CoreDNS
+- Ingress Controller
+- Metrics Server
+Why
+- Cluster cannot work without these services.
+==================================================
+User Node Pool
+Purpose
+- Runs business applications.
+
+Examples:
+- Java Apps
+- APIs
+- Microservices
+- Nginx
+Why
+- Separates system workloads from application workloads.
+
+===================================================================
+************************************************|
+AKS Storage - Complete Interview Guide          |
+*************************************************
+Why Do We Need Storage?
+By default, Kubernetes Pods are ephemeral.
+- Pod stores data locally.
+- Pod crashes.
+- New Pod gets created.
+- Local data is lost.
+
+Example:
+- MySQL Pod stores customer data.
+- Pod crashes.
+- New Pod starts.
+- Customer data disappears.
+
+To solve this problem Kubernetes uses Persistent Storage.
+
+Storage Components Overview
+Everything revolves around these 4 components:
+
+StorageClass
+PV (Persistent Volume)
+PVC (Persistent Volume Claim)
+Azure Storage (Disk/File)
+
+Flow:
+Application → Pod → PVC → PV → StorageClass → Azure Storage
+
+StorageClass
+What is StorageClass?
+StorageClass is a blueprint/template that tells Kubernetes:
+- Which storage to create.
+- What performance level to use.
+- Which storage backend to use.
+- How storage should be provisioned.
+
+Think:
+StorageClass = Requirement Document
+PV = Actual Storage
+
+
+Why StorageClass is Needed?
+Without StorageClass:
+- Cloud team creates Azure Disk manually.
+- Kubernetes Admin creates PV manually.
+- Developers use PV.
+Too much manual work.
+
+With StorageClass:
+- Developer creates PVC.
+- Storage created automatically.
+- PV created automatically.
+- Pod starts using storage.
+
+Everything becomes automated.
+
+StorageClass Real-Life Example
+Suppose MySQL Team says:
+
+Need 100 GB.
+Need Premium SSD.
+Need high performance.
+
+StorageClass defines:
+
+Premium SSD
+Azure Disk
+Dynamic provisioning
+
+Whenever anybody requests storage, Kubernetes automatically creates it.
+
+StorageClass Components
+1. Provisioner
+Defines who will create storage.
+Examples:
+
+Azure Disk CSI Driver
+Azure File CSI Driver
+
+Job:
+
+Receives request.
+Calls Azure APIs.
+Creates storage.
+
+
+2. Parameters
+Defines storage characteristics.
+Examples:
+
+Premium SSD
+Standard SSD
+Standard HDD
+
+Defines:
+
+Performance
+Cost
+Redundancy
+
+
+3. Reclaim Policy
+Controls what happens after PVC deletion.
+Delete
+
+PV deleted.
+Azure Disk deleted.
+
+Retain
+
+PV remains.
+Azure Disk remains.
+Manual cleanup required.
+
+Used for databases.
+
+StorageClass Types in AKS
+managed-csi
+Purpose:
+
+Azure Managed Disk.
+General workloads.
+
+Use:
+
+Applications
+APIs
+Small databases
+
+
+managed-premium
+Purpose:
+
+Premium SSD.
+
+Use:
+
+Production Databases
+High IOPS Workloads
+Critical Applications
+
+Most commonly used in Production.
+
+azurefile-csi
+Purpose:
+
+Azure File Share.
+
+Use:
+
+Shared storage.
+
+Multiple Pods can access same files.
+
+azurefile-csi-premium
+Purpose:
+
+High-performance Azure File Share.
+
+Use:
+
+Large enterprise applications.
+
+
+PV (Persistent Volume)
+What is PV?
+PV is actual storage resource available to Kubernetes.
+Examples:
+
+Azure Managed Disk
+Azure File Share
+
+Think:
+StorageClass = Order Form
+PV = Actual Hard Disk
+
+Purpose of PV
+Provides actual storage capacity.
+Examples:
+
+50 GB Disk
+100 GB Disk
+500 GB File Share
+
+PV is what physically stores application data.
+
+PVC (Persistent Volume Claim)
+What is PVC?
+PVC is a request for storage made by application teams.
+Think:
+
+Employee requests Laptop.
+Company provides Laptop.
+
+Similarly:
+
+Application requests storage.
+Kubernetes provides storage.
+
+
+PVC Contains
+
+Storage Size
+Access Mode
+Storage Class
+
+Example:
+Developer says:
+
+Need 100 GB.
+Need Premium Storage.
+Need ReadWriteOnce access.
+
+PVC sends request to Kubernetes.
+
+PV vs PVC
+PV
+
+Actual storage.
+Created by system.
+
+PVC
+
+Request for storage.
+Created by developer.
+
+Simple Interview Answer:
+PVC requests storage; PV provides storage.
+
+How Binding Works
+Step 1
+Application creates PVC.
+Step 2
+Kubernetes checks StorageClass.
+Step 3
+StorageClass creates Azure Storage.
+Step 4
+PV gets created.
+Step 5
+PVC gets attached to PV.
+Step 6
+Pod mounts PVC.
+Result:
+Application gets storage.
+
+How AKS Connects to Azure Storage?
+This is a very common interview question.
+Answer:
+AKS uses CSI Driver (Container Storage Interface).
+CSI Driver acts as bridge between Kubernetes and Azure.
+Flow:
+PVC Created
+↓
+StorageClass Triggered
+↓
+CSI Driver
+↓
+Azure API
+↓
+Azure Disk/File Created
+↓
+PV Created
+↓
+Pod Mounted
+
+What is CSI Driver?
+CSI = Container Storage Interface
+Purpose:
+
+Standard way to connect Kubernetes with storage providers.
+
+Examples:
+
+Azure Disk CSI
+Azure File CSI
+AWS EBS CSI
+EFS CSI
+
+In AKS, Microsoft recommends CSI Drivers.
+
+Azure Storage Types Used in AKS
+Azure Disk
+Most Important Interview Topic
+What is Azure Disk?
+Azure Managed Block Storage.
+Looks like:
+
+Hard Disk
+SSD
+Premium SSD
+
+attached to Kubernetes Node.
+
+Access Mode
+ReadWriteOnce (RWO)
+Meaning:
+
+Only one node can write at a time.
+
+
+Best Use Cases
+
+MySQL
+PostgreSQL
+Oracle
+MongoDB
+SQL Server
+Elasticsearch
+
+Any database workload.
+
+Why Best for Databases?
+Databases need:
+
+High IOPS
+Low Latency
+Consistent Performance
+
+Azure Disk provides all 3.
+
+Azure Files
+What is Azure File?
+Managed file share provided by Azure.
+Accessible through:
+
+SMB
+NFS
+
+
+Access Mode
+ReadWriteMany (RWX)
+Meaning:
+Multiple Pods can access same storage simultaneously.
+
+Best Use Cases
+
+Shared Upload Directories
+Shared Configuration Files
+Web Content
+Shared Documents
+
+
+Azure Disk vs Azure Files
+Azure Disk
+
+Block Storage
+High Performance
+Low Latency
+Single Node Write
+Best for Databases
+
+Azure Files
+
+File Storage
+Shared Access
+Multiple Pods Access
+RWX Support
+Best for Shared Files
+
+Interview Answer:
+Use Azure Disk for databases and Azure Files for shared storage requirements.
+
+Access Modes (Very Important)
+ReadWriteOnce (RWO)
+
+Single Node Read/Write.
+
+Used by:
+
+Azure Disk
+
+Database workloads.
+
+ReadOnlyMany (ROX)
+
+Multiple Nodes Read Only.
+
+Rarely used.
+
+ReadWriteMany (RWX)
+
+Multiple Nodes Read/Write.
+
+Used by:
+
+Azure Files
+
+Shared storage workloads.
+
+Complete Storage Flow for MySQL
+Step 1
+MySQL Deployment starts.
+Step 2
+MySQL Pod requests PVC.
+Step 3
+PVC refers to managed-premium StorageClass.
+Step 4
+CSI Driver calls Azure API.
+Step 5
+Azure creates Premium SSD Disk.
+Step 6
+PV automatically created.
+Step 7
+PVC binds to PV.
+Step 8
+Disk attached to Node.
+Step 9
+MySQL Pod mounts volume.
+Step 10
+Database starts storing data.
+Final Flow:
+MySQL Pod → PVC → PV → StorageClass → CSI Driver → Azure Premium SSD
+
+What Happens If Pod Crashes?
+Normal Container Storage:
+
+Pod deleted.
+Data deleted.
+
+Persistent Volume Storage:
+
+Pod deleted.
+Azure Disk remains.
+New Pod starts.
+Same PVC attached.
+Same data available.
+
+No data loss.
+
+Production Recommendation
+For Databases:
+
+StorageClass: managed-premium
+Backend: Azure Premium SSD
+Access Mode: ReadWriteOnce
+Use Case: MySQL, PostgreSQL, MongoDB
+
+For Shared Storage:
+
+StorageClass: azurefile-csi
+Backend: Azure File Share
+Access Mode: ReadWriteMany
+
+
+Top Interview Questions & Answers
+Q: What is StorageClass?
+StorageClass is a blueprint that defines how storage should be dynamically provisioned in Kubernetes.
+Q: What is PV?
+Persistent Volume is the actual storage resource available to Kubernetes.
+Q: What is PVC?
+Persistent Volume Claim is a request for storage made by applications.
+Q: How are PV and PVC related?
+PVC requests storage and gets bound to a suitable PV.
+Q: How does AKS create Azure Storage?
+Using CSI Driver, which communicates with Azure APIs.
+Q: Why do we need StorageClass?
+To enable dynamic storage provisioning without manual PV creation.
+Q: Which storage is best for PostgreSQL/MySQL?
+Azure Premium Disk via managed-premium StorageClass.
+Q: Why Azure Disk for databases?
+High IOPS, low latency, and reliable performance.
+Q: Which storage supports multiple Pods?
+Azure Files using ReadWriteMany access mode.
+Q: Difference between Azure Disk and Azure Files?
+Azure Disk is block storage for databases; Azure Files is shared file storage for multiple Pods.
+Final Interview One-Liner
+StorageClass defines how storage is created, CSI Driver connects Kubernetes with Azure, PV is the actual storage, PVC requests the storage, Azure Disk is best for databases, Azure Files is best for shared storage, and the complete flow is:
+Application → Pod → PVC → StorageClass → CSI Driver → Azure Storage → PV → Data Persistence.Provide your feedback on BizChat
 
