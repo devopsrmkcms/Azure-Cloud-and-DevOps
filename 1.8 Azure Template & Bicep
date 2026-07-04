@@ -1,1 +1,76 @@
+BICEP
+=================================
+1. What is a Bicep File?
+A Bicep file is an Infrastructure as Code (IaC) file used to define Azure resources.
+- .bicep extension
+- file name: main.bicep
+
+Inside it you describe:
+- Resource Group
+- VNET
+- VM
+- AKS
+- Storage Account
+- Load Balancer
+- NSG
+
+--> Bicep compiles into ARM JSON before deployment.
+
+2. What is written inside bicep file ?
+- parameters     param vmName string                                       (input values)
+- variable       var location = 'centralindia'                             (reusable values)
+- Resources      resource storage 'Microsoft.Storage/storageAccounts@2023-05-01' = { name: 'mystorage'}
+- output         output storageId string = storage.id                      (Return values) 
+- Modules        module storage './storage.bicep' = { }
+- Loops          resource vm 'Microsoft.Compute/virtualMachines@2023-03-01' = [for name in vmNames: {name: name}]
+- Conditions     resource storage 'Microsoft.Storage/storageAccounts@2023-01-01' = if(createStorage) {}
+- existing   // Reference existing resource
+
+3. 5. What is What-If?
+Before deployment, Azure can show what changes will happen.
+No resources are created.
+Dry-run feature.
+Command:  az deployment group what-if -g dev-rg -f main.bicep
+
+Possible output:
++ Create Storage Account
+~ Modify VM Size
+- Delete Old NSG
+
+4. Convert bicep to ARM and ARM to bicep file
+
+Convert into ARM using bicep
+Command: az bicep build --file main.bicep          #main.json file produced
+
+Convert into bicep using ARM
+Command: az bicep decompile --file main.json         #main.bicep file produced
+
+5. Azure commands
+
+- az login                                                      # to login in azure
+- az account show                                               # Show Subscription
+- az account list -o table                                      # List Subscriptions
+- az account set --subscription "SubscriptionName"              # Set Subscription
+- az group create -n dev-rg -l centralindia                     # Create Resource Group
+- az deployment group validate -g dev-rg -f main.bicep          # Validate Bicep
+- az deployment group what-if -g dev-rg -f main.bicep           # What-if
+- az deployment group create -g dev-rg -f main.bicep            # Deploy
+- az bicep version                                              # Check bicep version
+
+6. Real production flow
+1. Write Bicep
+2. Test locally
+3. az bicep build
+4. az deployment validate
+5. az deployment what-if
+6. Commit to Git
+7. Pull Request
+8. Azure DevOps Pipeline
+9. Deploy
+10. ARM Engine creates resources
+11. Verify resources
+12. Monitor
+
+7. Sample file
+
 
