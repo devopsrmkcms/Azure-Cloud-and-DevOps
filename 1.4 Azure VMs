@@ -117,63 +117,56 @@ Azure VM Scale Sets
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 Availability Set vs Availability Zone (Azure VM)
+
 Availability Set
-
-Protects against server/rack failure inside a single datacenter to avoid single point of failure
-VMs distributed across:
-
-Fault Domains → different racks/power/network
-Update Domains → different maintenance groups
-
-
-Suitable for applications running within one datacenter
-SLA: 99.95% when properly configured
-Lower latency between VMs because they stay in the same datacenter. [learn.microsoft.com], [bing.com]
+- Provides high availability within a single datacenter.
+- Distributes VMs across Fault Domains and Update Domains.
+- Protects against hardware failures and planned maintenance.
+- Used when Availability Zones are not required.
+- Azure SLA up to 99.95% when two or more VMs are deployed in an Availability Set.
+- Protects against server/rack failure inside a single datacenter to avoid single point of failure
+- VMs distributed across:
+   Fault Domains → different racks/power/network
+   Update Domains → different maintenance groups
+- Suitable for applications running within one datacenter
+- Lower latency between VMs because they stay in the same datacenter.
 
 Availability Zone
-
-Protects against entire datacenter failure
-VMs deployed across physically separate datacenters within the same Azure region
-Each zone has independent:
-
-Power
-Cooling
-Network
-
-
-Suitable for mission-critical production applications
-SLA: 99.99%
-Higher resiliency than Availability Sets. [learn.microsoft.com], [bing.com]
+- Protects against entire datacenter failure
+- VMs deployed across physically separate datacenters within the same Azure region
+- Each zone has independent:
+   Power
+   Cooling
+   Network
+- Suitable for mission-critical production applications
+- SLA: 99.99%
+- Higher resiliency than Availability Sets.
 
 Simple Comparison
 Availability Set
-
-Same region ✅
-Same datacenter ✅
-Different racks ✅
-Datacenter failure protection ❌
-Lower cost ✅
+- Same region ✅
+- Same datacenter ✅
+- Different racks ✅
+- Datacenter failure protection ❌
+- Lower cost ✅
 
 Availability Zone
-
-Same region ✅
-Different datacenters ✅
-Different power/network ✅
-Datacenter failure protection ✅
-Higher availability ✅ 
+- Same region ✅
+- Different datacenters ✅
+- Different power/network ✅
+- Datacenter failure protection ✅
+- Higher availability ✅ 
 
 Example
 Availability Set
-
-VM1 → Rack 1
-VM2 → Rack 2
-If Rack 1 fails → VM2 still running
+- VM1 → Rack 1
+- VM2 → Rack 2
+  If Rack 1 fails → VM2 still running
 
 Availability Zone
-
-VM1 → Zone 1 (Datacenter A)
-VM2 → Zone 2 (Datacenter B)
-If Datacenter A fails → VM2 still running
+- VM1 → Zone 1 (Datacenter A)
+- VM2 → Zone 2 (Datacenter B)
+  If Datacenter A fails → VM2 still running
 
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -265,4 +258,91 @@ identical load-balanced virtual machines with automatic scaling and high availab
 
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+3. Azure Backup vs Azure Site Recovery (ASR)
+
+Azure Backup
+Purpose
+- Used for backup and restore.
+- Protects against accidental deletion.
+- Protects against file corruption.
+- Protects against ransomware.
+- Restores data from recovery points
+       
+      VM Deleted
+          │
+          ▼
+   Restore From Backup
+
+Azure Site Recovery (ASR)
+Purpose
+- Disaster Recovery solution.
+- Replicates VM continuously.
+- Enables failover to another region.
+- Used when primary site becomes unavailable.
+- Provides business continuity.
+
+         Primary Region
+              │
+              ▼
+           East US
+              │
+         Replication
+              │
+              ▼
+           West US
+
+Backup
+=
+Recover Data
+
+ASR
+=
+Recover Business
+
+Retention Policy
+Defines how long backups are kept.
+- Daily retention.
+- Weekly retention.
+- Monthly retention.
+- Yearly retention.
+
+
+VM Insights
+- Part of Azure Monitor.
+- Performance monitoring.
+- Dependency mapping.
+- Health monitoring.
+- Centralized observability.
+==================================================
+
+OS Disk
+- Contains Operating System.
+- Used for booting the VM.
+- One OS disk per VM.
+- Can be Windows or Linux.
+- Usually C: drive (Windows).
+
+Data Disk
+- Used for application/data storage.
+- Multiple data disks can be attached.
+- Can be added or removed independently.
+- Higher storage capacity.
+- Suitable for databases.
+
+=====================================================
+
+Recovery Services Vault (Deep Dive)
+What is Recovery Services Vault?
+A Recovery Services Vault is a storage and management entity used by:
+- Azure Backup
+- Azure Site Recovery
+
+It stores:
+- Backups
+- Recovery Points
+- Replication metadata
+- Disaster Recovery configuration
+- Microsoft defines it as the Azure entity that houses backup and recovery data for VMs, workloads, servers, and workstations.
+
 
