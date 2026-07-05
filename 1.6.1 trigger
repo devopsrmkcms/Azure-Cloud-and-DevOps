@@ -1,0 +1,398 @@
+trigger types:
+- manual trigger
+- single branch trigger
+- multi-branch trigger (include & exclude)
+- path based trigger (inlcude & exclude)
+- PR based trigger
+- scheduled triggger
+- resources trigger (CI completed then run CD pipeline)
+
+
+trigger: none                                  # manual trigger
+
+- Disables automatic pipeline execution.
+- Pipeline runs only when manually triggered.
+- Commonly used for production deployments.
+
+trigger:                                      # Single Branch trigger  
+- main
+
+- Runs pipeline whenever code is pushed to main branch.
+- Implements Continuous Integration (CI).
+- Automatically validates code changes.
+
+trigger:                                       # Multi-branch trigger 
+  branches:
+    include:
+    - main
+    - develop
+    - release/*
+    exclue:
+    - feature/*                                #Prevents pipeline execution on specific branches.
+
+- Controls which branches can trigger pipeline.
+- Allows multiple branches.
+- Improves control.
+- Useful for release strategy.
+
+trigger:                                       # Path based trigger (inlcude & exclude)
+  paths:
+    include:
+    - src/*
+    exclude:
+    - README.md
+    - docs/*
+
+- Triggers pipeline only if specific files/folders change.
+- Useful for monorepos.
+- Reduces pipeline executions.
+- Ignores changes in specific files/folders.
+- Common for documentation changes.
+
+
+pr:                                             # Pull Request is created or updated.
+- main
+
+
+Purpose
+- Triggers pipeline only if specific files/folders change.
+- Useful for monorepos.
+- Reduces pipeline executions.
+- Saves build time.
+- Improves efficiency.
+
+schedules:
+- cron: "0 2 * * *"
+
+resources:
+  pipelines:
+  - pipelin*: BuildPipeline
+    source: Build
+    trigger: true
+
+- Automatically starts pipeline when another pipeline completes successfully.
+- Removes need for manual execution.
+- Enables chained pipelines.
+- Supports automated releases.
+
+trigger
+=
+Code Change Trigger
+
+resources trigger
+=
+Pipeline Completion Trigger
+
+resources pipeline trigger is used to automatically start a downstream pipeline when an upstream pipeline completes 
+successfully, enabling end-to-end CI/CD workflows such as Build → Test → Deploy pipelines.
+
+=============================================================================================================================
+Pool:
+
+Create Agent Poll
+Azure DevOps
+    ↓
+Organization Settings
+    ↓
+Agent Pools
+    ↓
+Add Pool
+
+
+Types:
+- Microsoft Hosted 
+- Self Hosted
+- Managed DevOps Pool
+
+Microsoft Hosted
+Purpose
+-Quick setup.
+- No infrastructure management.
+- Good for small projects.
+- Suitable for most CI pipelines.
+- Temporary VM created for every run.
+
+Pros
+✓ No maintenance
+✓ Auto updates
+✓ Easy to use
+
+Self Hosted
+Purpose
+- Custom software required.
+- Private network access required.
+- Better performance for large builds.
+- Persistent environment.
+- Enterprise workloads.
+
+Pros
+✓ Full control
+✓ Faster builds
+✓ Private connectivity
+
+
+pool:
+  name: DevOpsPool
+
+  demands:
+  - Docker
+  - Terraform
+  - AzureCLI
+  
+demands
+Purpose
+- Demands are used to tell Azure DevOps:
+- "Run this job only on agents that have specific software, capabilities, or configuration."
+- Mostly used with Self-Hosted Agents.
+- Azure DevOps checks agent capabilities before assigning the job.
+- If no agent satisfies the demand → pipeline stays queued and eventually fails.
+- Helps ensure the right agent executes the workload.
+
+What is a Pool?
+A logical collection of agents where pipeline jobs execute.
+
+What is an Agent?
+Machine that executes pipeline tasks.
+
+When will you use Self Hosted Agent?
+- Private network access.
+- Internal repositories.
+- Internal Kubernetes cluster.
+- Custom tools needed.
+- Faster builds.
+
+What is a Demand?
+- Requirement that an agent must satisfy before Azure DevOps assigns a job.
+==============================================================================================================================
+Option inside Steps
+
+- checkout                    # Download source code. & Checkout Git repository.
+- script                      # Run shell commands.
+- bash                        # Run Bash scripts.
+- pwsh                        # Run PowerShell Core. & Linux + Windows + macOS.
+- task                        # Run built-in Azure DevOps tasks.& Azure CLI execution. & Docker build. & K8s Deployment
+- publish                     # Upload artifacts. & Store build outputs. & Share files between stages.
+- download                    # Download pipeline artifacts.
+
+===============================================================================================================================
+
+Strategy: --used to controls 
+                    - execution, 
+                    - deployment patterns and 
+                    - scaling 
+Purpose
+- Defines how a job or deployment executes.
+- Controls parallel execution.
+- Controls deployment patterns.
+- Used for scaling jobs.
+- Used for advanced deployment methods.
+
+Types of Strategy
+- strategy: matrix strategy
+- strategy: parallel strategy
+
+Strategy: matrix (multiple copies of same job with different variables)
+Purpose
+- Create multiple copies of the same job.
+- Each copy runs with different variables.
+- Used for testing on multiple OS.
+- Used for testing multiple versions.
+- Runs jobs in parallel.
+
+strategy: parallel (multiple identical jobs in parallel without variable change)
+Purpose
+- Run multiple identical jobs in parallel.
+- Does not change variables.
+- Used for load testing.
+- Used for performance testing.
+- Used to speed up execution
+
+When would you use Matrix?
+- Multiple OS Testing
+- Multiple Java Versions
+- Multiple Python Versions
+- Multiple Browsers
+- Multi-Environment Validation
+
+When would you use Parallel?
+- Load Testing
+- Selenium Tests
+- Performance Testing
+- Large Test Suites
+
+Matrix = Same Job + Different Configurations
+
+Parallel = Same Job + Many Copies
+=======================================================================================================================
+
+Deployment Strategy:
+- runOnce
+- rolling
+- canary
+
+=======================================================================================================================
+
+✅ Parameters in Azure Pipelines (one-line style)
+parmaeters:
+  - name:
+    displayName:
+    type:
+    default:
+    values:
+
+string parameter → Accepts single-line text input at runtime.                type: string
+boolean parameter → Allows true/false selection in pipeline run.             type: boolean
+choice parameter → Provides dropdown selection with predefined values.      
+number parameter → Accepts numeric input.                                    type: numberlist
+object parameter → Used to pass complex structured data (arrays/maps).       type: object    --used for tags
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+parameters:
+- name: appName
+  type: string
+  default: myapp
+
+- name: env
+  type: string
+  default: dev
+  values:
+  - dev
+  - test
+  - prod
+
+variables:
+  myVar: hello
+
+steps:
+- script: echo $(myVar)
+  displayName: Print Variable
+
+- script: echo ${{ parameters.appName }}
+  displayName: Print String Parameter
+
+- script: echo ${{ parameters.env }}
+  displayName: Print Choice Parameter
+
+  =========================================================================================================================
+
+✅ resources = external components used inside pipeline
+
+Allows pipeline to consume external data/services
+Helps in pipeline chaining, reuse, automation
+
+👉 Used to connect pipelines with external sources like repos, other pipelines, containers, packages, etc.
+
+✅ 3. Types of resources
+✅ 1. repositories    -- Multiple repo checkout
+✅ 2. pipelines       -- Build → Deploy pipeline chaining
+✅ 3. containers      -- Run jobs inside container
+✅ 4. packages        -- dependency management
+✅ 5. webhooks        -- external event-based trigger
+
+✅ 1. repositories
+👉 Use external Git repo
+resources:
+  repositories:
+  - repository: myRepo
+    type: git
+    name: project/repo
+
+✔ Use: Multiple repo checkout
+
+✅ 2. pipelines
+👉 Trigger pipeline from another pipeline
+resources:
+  pipelines:
+  - pipeline: buildPipeline
+    source: build-pipeline-name
+    trigger: true
+
+✔ Use: Build → Deploy pipeline chaining
+
+✅ 3. containers
+👉 Use container image as runtime
+resources:
+  containers:
+  - container: myContainer
+    image: nginx:latest
+
+✔ Use: Run jobs inside container
+
+✅ 4. packages
+👉 Use artifacts from package feeds
+resources:
+  packages:
+  - package: myPackage
+    type: npm
+    name: mypkg
+
+✔ Use: dependency management
+
+✅ 5. webhooks
+👉 Trigger pipeline from external system
+resources:
+  webhooks:
+  - webhook: myWebhook
+
+✔ Use: external event-based trigger
+
+✅ 1. What is a Task
+👉 Task = predefined action performed in a pipeline
+
+✅ 2. Key Task Options (commonly used)
+
+displayName → name of step
+inputs → parameters for task
+condition → when to run
+continueOnError → ignore failure
+timeoutInMinutes → timeout
+
+✅ 3. script vs task (important)
+
+script: → quick command execution
+task: → structured + reusable + advanced
+
+✅ 4. What is Deployment Group
+👉 Deployment Group = a collection of target servers (VMs) where application will be deployed
+
+===================================================================================================================================
+
+What is a Service Connection?
+Purpose
+- Service Connection is a secure authentication mechanism.
+- Used by Azure DevOps pipelines to connect to external systems.
+- Avoids hardcoding usernames, passwords, tokens, and secrets.
+- Stores credentials securely.
+- Used by deployment, build, release, and automation tasks
+
+How to Create a Service Connection?
+
+Azure DevOps
+    ↓
+Project Settings
+    ↓
+Service Connections
+    ↓
+New Service Connection
+
+Choose: 
+- Azure Resource Manager
+- GitHub
+- Docker Registry
+- Kubernetes
+- AWS
+- Jenkins etc.
+
+Azure Related Service Connections
+- Azure Resource Manager
+- Azure Classic
+- Azure Container Registry (ACR)
+- Azure Kubernetes Service (AKS)
+- Azure Key Vault
+- Azure Machine Learning
+
