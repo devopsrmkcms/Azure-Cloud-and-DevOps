@@ -1,1 +1,359 @@
+## What is Azure Storage?
+* Microsoft managed cloud storage service.
+* Highly available and durable.
+* Stores structured and unstructured data.
 
+
+# Azure Storage Account
+A Storage Account is the top-level container.Inside a Storage Account you can create:
+* Blob Storage
+* Azure Files
+* Queue Storage
+* Table Storage
+* Data Lake Storage Gen2
+
+Storage Account
+│
+├── Blob Containers (Block blob, append blob, page blob)
+├── File Shares
+├── Queues
+├── Tables
+└── Data Lake
+
+All storage services inside a Storage Account share the same redundancy setting. 
+
+***
+# Storage Types
+1. Blob Storage
+Most important storage service.
+Used for:
+* Images
+* Videos
+* Logs
+* Backups
+* VM snapshots
+* Application artifacts
+
+Real Example:
+* Store Terraform state files
+* Store AKS backup files
+* Store Jenkins build artifacts
+
+***
+## Blob Types
+--> Block Blob
+--> Append Blob
+-->  Page Blob
+
+- Block Blob
+* Most common.
+* Stores files.
+* Documents.
+* Images.
+* Videos.
+* CI/CD artifacts.
+
+## Append Blob
+* Optimized for append operations.
+* Logging workloads.
+* Audit logs.
+* Monitoring data.
+
+### Page Blob
+
+* Random read/write access.
+* Used by Azure VM disks.
+* Stores VHD files.
+
+# 2. Azure Files
+Managed file sharing service.
+Protocols:
+* SMB
+* NFS
+
+Used for:
+* Shared drives
+* Application shared folders
+* Lift-and-shift migrations
+* User home directories
+Multiple VMs can mount same share.
+
+# 3. Queue Storage
+Message storage service.
+Used for:
+* Asynchronous communication
+* Decoupled applications
+* Background jobs
+
+# 4. Table Storage
+NoSQL key-value storage.
+Used for:
+* Metadata
+* Configuration data
+* Flexible schema applications
+
+# 5. Data Lake Storage Gen2
+Built on top of Blob Storage.
+Used for:
+* Big Data
+* Analytics
+* Data Engineering
+* Spark
+* Hadoop
+
+***
+
+# Storage Account Types
+
+## General Purpose v2 (GPv2)
+Most commonly used.
+Supports:
+* Blob
+* File
+* Queue
+* Table
+
+## Premium Block Blob
+Used when:
+* High transaction rates
+* Low latency requirement
+* Heavy blob workloads
+
+## Premium File Shares
+Used when:
+* Enterprise applications
+* High IOPS file shares
+* NFS workloads
+
+## Premium Page Blob
+Used for:
+* High performance VM disks
+
+***
+# Storage Redundancy 
+- LRS
+- ZRS
+- GRS
+- RA-GRS
+- GZRS
+
+## LRS (Locally Redundant Storage)
+* 3 copies.
+* Single datacenter.
+* Lowest cost.
+* Protects against hardware failure.
+* Most common.
+
+## ZRS (Zone Redundant Storage)
+* Copies across Availability Zones.
+* Protects against zone failure.
+* Higher availability.
+* Recommended for production.
+
+## GRS (Geo Redundant Storage)
+* Replicates to secondary region.
+* Disaster recovery protection.
+* Data available in paired region.
+
+## RA-GRS
+* Same as GRS.
+* Secondary region can be read.
+
+Useful for:
+* Reporting
+* Read-only workloads
+
+## GZRS
+* Zone redundancy + geo redundancy.
+* Highest resiliency.
+* Production critical applications.
+
+# Storage Performance Tiers
+## Standard HDD
+* Lowest cost.
+* Lowest performance.
+* Archive workloads.
+
+Use Cases:
+* Backups
+* Archive data
+
+***
+
+## Standard SSD
+* Better performance.
+* Moderate cost.
+* General workloads.
+
+Use Cases:
+* Test environments
+* Small production workloads
+
+***
+## Premium SSD
+* High IOPS.
+* Low latency.
+* Production applications.
+
+Use Cases:
+* Databases
+* Enterprise applications
+
+***
+
+## Premium SSD v2
+* Better performance than Premium SSD.
+* Flexible performance tuning.
+* High throughput.
+
+***
+
+## Ultra Disk
+* Highest IOPS.
+* Lowest latency.
+* Mission critical workloads.
+
+Use Cases:
+* SQL Server
+* SAP HANA
+* Large databases
+
+***
+
+# Access Tiers (Blob Storage)
+- Hot Tier
+- Cool Tier
+- Archive Tier
+
+## Hot Tier
+* Frequently accessed data.
+* Highest storage cost.
+* Lowest access cost.
+
+## Cool Tier
+* Infrequently accessed data.
+* Lower storage cost.
+* Higher retrieval cost.
+
+## Archive Tier
+* Rarely accessed data.
+* Lowest storage cost.
+* Highest retrieval latency.
+
+***
+
+# Storage Security
+
+## Storage Account Keys
+* Full account access.
+* Two keys provided.
+* Can rotate keys.
+
+## Shared Access Signature (SAS)
+
+* Temporary access.
+* Time limited.
+* Permission limited.
+
+
+## Private Endpoint
+* Private IP access.
+* No public internet exposure.
+* Most secure approach.
+
+## Service Endpoint
+
+* Secure VNet access.
+* Public endpoint still exists.
+* Traffic remains on Azure backbone.
+
+***
+
+# Azure Storage Networking
+
+Supported access methods:
+* Public Endpoint
+* Service Endpoint
+* Private Endpoint
+* VPN Gateway
+* ExpressRout
+***
+
+# Lifecycle Management
+
+Used to move data automatically.
+
+Example:
+
+* Day 0 → Hot
+* Day 30 → Cool
+* Day 90 → Archive
+
+Benefits:
+
+* Cost optimization
+* Automatic management
+
+***
+
+# Monitoring
+
+## Azure Monitor
+Tracks:
+* Capacity
+* Transactions
+* Latency
+* Availability
+
+***
+## Storage Insights
+
+Provides:
+
+* Performance metrics
+* Capacity analysis
+* Availability monitoring
+
+***
+
+# Most Asked Interview Questions
+
+## What is Azure Storage?
+* Cloud storage service for blobs, files, queues, tables, and data lake.
+
+## Difference Between Blob and File Storage?
+
+Blob Storage:
+* Object storage.
+* Images, videos, backups.
+
+Azure Files:
+* SMB/NFS file shares.
+* Shared folders.
+
+## Difference Between LRS and GRS?
+
+LRS:
+* Same datacenter.
+
+GRS:
+* Secondary region replication.
+
+## Difference Between Hot, Cool, Archive?
+
+Hot:
+* Frequently accessed.
+
+Cool:
+* Occasional access.
+
+Archive:
+* Rare access.
+
+## Difference Between Service Endpoint and Private Endpoint?
+
+Service Endpoint:
+* Secure path to public endpoint.
+
+Private Endpoint:
+* Private IP inside VNET.
