@@ -205,3 +205,8 @@ Virtual WAN → Hub-and-spoke networking at global scale.
 
 Azure Bastion is a managed PaaS service that provides secure SSH/RDP access to VMs over private IPs 
 through the Azure Portal without exposing public IP addresses or opening ports 22/3389 to the internet.
+
+
+Azure Extended Zones (AEZ) are an offering from Microsoft Azure that enable data processing close to the user. 
+You can deploy VMs, containers, storage, and other selected Azure services into Azure Extended Zones to address 
+the low latency and high throughput requirements of applications.
