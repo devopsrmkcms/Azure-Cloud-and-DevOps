@@ -166,3 +166,42 @@ Why?
 Traffic uses a private IP.
 Public access can be completely disabled.
 Helps meet strict security and compliance requirements
+
+DDoS Protection
+Protects Azure resources from DDoS attacks.
+Automatically monitors malicious traffic.
+Mitigates Layer 3 and Layer 4 attacks.
+Integrates with Azure VNETs.
+Provides attack analytics and alerts.
+
+
+Bastion
+Secure RDP and SSH connectivity.
+Access VMs through Azure Portal.
+No public IP required on VMs.
+Reduces attack surface.
+Managed PaaS service.
+
+Load Balancer → Layer 4 traffic distribution service.
+
+NAT Gateway → Outbound internet access with static public IP.
+
+Azure Firewall → Managed stateful firewall service.
+
+DDoS Protection → Protects Azure resources from DDoS attacks.
+
+Bastion → Secure RDP/SSH access without public IP.
+
+Private DNS Zone → DNS resolution for private endpoints.
+
+Traffic Manager → DNS-based global load balancer.
+
+Front Door → Global Layer 7 load balancer with WAF.
+
+Network Watcher → Azure network troubleshooting tool.
+
+Virtual WAN → Hub-and-spoke networking at global scale.
+
+
+Azure Bastion is a managed PaaS service that provides secure SSH/RDP access to VMs over private IPs 
+through the Azure Portal without exposing public IP addresses or opening ports 22/3389 to the internet.
