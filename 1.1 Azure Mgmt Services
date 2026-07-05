@@ -31,6 +31,32 @@ Azure Management Groups
 - Helps large enterprises manage Azure at scale.
 - Can have multiple levels of hierarchy.
 
+Azure Tenant (Microsoft Entra ID / Azure AD)
+│
+├── Management Group (Corp)
+│   │
+│   ├── Management Group (Production)
+│   │   │
+│   │   ├── Subscription (Prod Subscription)
+│   │   │   │
+│   │   │   ├── Resource Group (RG-Web-Prod)
+│   │   │   │   ├── VM
+│   │   │   │   ├── Load Balancer
+│   │   │   │   └── Storage Account
+│   │   │   │
+│   │   │   └── Resource Group (RG-DB-Prod)
+│   │   │       ├── Azure SQL DB
+│   │   │       └── Backup Vault
+│   │
+│   └── Management Group (Development)
+│       │
+│       └── Subscription (Dev Subscription)
+│           │
+│           └── Resource Group (RG-Web-Dev)
+│               ├── VM
+│               ├── App Service
+│               └── Storage Account
+
 Azure Tags
 - Key-value pairs attached to Azure resources.
 - Used for cost tracking and reporting.
