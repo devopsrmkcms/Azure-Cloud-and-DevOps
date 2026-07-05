@@ -255,3 +255,17 @@ Azure Firewall = Firewall for the entire network
 NSG is a stateful Layer 3/Layer 4 firewall that controls inbound and outbound traffic for 
 Azure resources using priority-based allow and deny rules, and it can be associated with 
 either a subnet or a network interface.
+
+Use Managed Identity When
+Application runs in Azure.
+VM accessing Key Vault.
+App Service accessing Storage Account.
+Function App accessing SQL Database.
+AKS workloads using Azure identity.
+
+Use Service Principal When
+Azure DevOps pipeline deploys to Azure.
+GitHub Actions deploys to Azure.
+Jenkins deploys to Azure.
+Terraform runs from local machine.
+Third-party tools need Azure access.
