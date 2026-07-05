@@ -210,3 +210,48 @@ through the Azure Portal without exposing public IP addresses or opening ports 2
 Azure Extended Zones (AEZ) are an offering from Microsoft Azure that enable data processing close to the user. 
 You can deploy VMs, containers, storage, and other selected Azure services into Azure Extended Zones to address 
 the low latency and high throughput requirements of applications.
+
+
+NSG (Network Security Group)
+NSG controls inbound and outbound network traffic.
+Works at Layer 3 and Layer 4 (IP, Port, Protocol).
+Uses Allow and Deny rules.
+Can be attached to Subnet or NIC.
+Processes traffic based on priority.
+
+NSG Contains Security Rules
+Each rule has:
+Priority
+Source
+Destination
+Port
+Protocol
+Action
+
+Lower Number = Higher Priority
+
+Azure evaluates both.
+Both Subnet and NIC NSG
+
+
+NSG vs Azure Firewall
+NSG
+- Free
+- Basic filtering
+- IP + Port based
+- Layer 3 / Layer 4
+
+Azure Firewall
+- Paid service
+- Centralized security
+- FQDN filtering
+- Application rules
+- Threat intelligence
+
+NSG = Firewall for a VM/Subnet
+Azure Firewall = Firewall for the entire network
+
+
+NSG is a stateful Layer 3/Layer 4 firewall that controls inbound and outbound traffic for 
+Azure resources using priority-based allow and deny rules, and it can be associated with 
+either a subnet or a network interface.
